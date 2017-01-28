@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Fiap.Cursos.Mobile.Views.CursosView" Title="Cursos">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" VerticalOptions="Start">
+            <SearchBar x:Name="PesquisaCursoSearchBar" Text="{Binding Filtro}" Placeholder="Pesquise um curso ..." SearchCommand="{Binding PesquisarCursosCommand}" ></SearchBar>
+            <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" HorizontalOptions="CenterAndExpand" />
+            <ListView ItemsSource="{Binding Cursos}" x:Name="CursosListView">
+                <ListView.RowHeight>
+                    <OnPlatform x:TypeArguments="x:Int32" iOS="70" Android="60" WinPhone="60" />
+                </ListView.RowHeight>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Padding="10,5,10,5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand">
+                                        <Label Text="{Binding Nome}" HorizontalOptions="FillAndExpand" FontSize="Medium"></Label>
+                                        <Label Text="{Binding Descricao}" HorizontalOptions="FillAndExpand" FontSize="Micro"></Label>
+                                    </StackLayout>
+                                    <Button Text="Detalhes" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Command="{Binding Path=BindingContext.DetalhesCursoCommand, Source={x:Reference Name=CursosListView}}" CommandParameter="{Binding .}"></Button>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

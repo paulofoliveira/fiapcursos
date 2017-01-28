@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Fiap.Cursos.Mobile.Views;
+using Microsoft.WindowsAzure.MobileServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ModernHttpClient;
 
 using Xamarin.Forms;
 
@@ -9,25 +12,24 @@ namespace Fiap.Cursos.Mobile
 {
     public class App : Application
     {
+        public static MobileServiceClient _client;
+
+        public static MobileServiceClient Client
+        {
+            get
+            {
+                if (_client == null)
+                {
+                    _client = new MobileServiceClient("https://fiapcursos.azurewebsites.net/", new NativeMessageHandler());
+                }
+
+                return _client;
+            }
+        }
+
         public App()
         {
-            // The root page of your application
-            var content = new ContentPage
-            {
-                Title = "Fiap.Cursos.Mobile",
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                        new Label {
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
-
-            MainPage = new NavigationPage(content);
+            MainPage = new NavigationPage(new CursosView());
         }
 
         protected override void OnStart()

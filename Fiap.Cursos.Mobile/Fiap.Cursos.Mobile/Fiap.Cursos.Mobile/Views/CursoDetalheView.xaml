@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Fiap.Cursos.Mobile.Views.CursoDetalheView" Title="{Binding Path=Curso.Nome}"
+             xmlns:conv="clr-namespace:Fiap.Cursos.Mobile.Converters;assembly=Fiap.Cursos.Mobile">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:InverseBooleanConverter x:Key="inverseBooleanConverter"></conv:InverseBooleanConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Button Text="Realize o Login" HorizontalOptions="FillAndExpand" Command="{Binding LoginCommand}" IsVisible="{Binding AcessarDetalheDisciplina, Converter={StaticResource inverseBooleanConverter}}"></Button>
+            <ListView IsGroupingEnabled="True" GroupDisplayBinding="{Binding Modulo}" ItemsSource="{Binding Disciplinas}" x:Name="DetalhesCursoListView">
+                <ListView.RowHeight>
+                    <OnPlatform x:TypeArguments="x:Int32" iOS="60" Android="50" WinPhone="50" />
+                </ListView.RowHeight>
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding .}" XAlign="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Padding="10,5,10,5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding Value}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                                    <Button Text="Editar" IsVisible="{Binding Path=BindingContext.AcessarDetalheDisciplina, Source={x:Reference Name=DetalhesCursoListView}}" HorizontalOptions="End" VerticalOptions="FillAndExpand" Command="{Binding Path=BindingContext.DetalhesDisciplinaCommand, Source={x:Reference Name=DetalhesCursoListView}}" CommandParameter="{Binding Key}"></Button>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+    </ContentPage.Content>
+
+</ContentPage>

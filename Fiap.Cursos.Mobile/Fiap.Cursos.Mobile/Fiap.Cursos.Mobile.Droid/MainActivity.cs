@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace Fiap.Cursos.Mobile.Droid
 {
@@ -15,9 +16,11 @@ namespace Fiap.Cursos.Mobile.Droid
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
+            ToolbarResource = Resource.Layout.Toolbar;          
 
             base.OnCreate(bundle);
+
+            CurrentPlatform.Init();
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
