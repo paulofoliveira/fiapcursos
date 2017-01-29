@@ -10,6 +10,7 @@ using Fiap.Cursos.Mobile.API.Models;
 using Owin;
 using Fiap.Cursos.Mobile.API.DataObjects;
 using System.Data.Entity.Validation;
+using System.Linq;
 
 // FONTE: http://stackoverflow.com/questions/19664257/why-in-web-api-returning-an-entity-that-has-a-one-to-many-relationship-causes-an#comment65543534_22000303
 
@@ -60,37 +61,43 @@ namespace Fiap.Cursos.Mobile.API
 
             try
             {
-                List<Disciplina> disciplinas = new List<Disciplina>
-            {
-               new Disciplina("Disciplina #A") { Id=Guid.NewGuid().ToString() },
-               new Disciplina("Disciplina #B"){ Id=Guid.NewGuid().ToString() },
-               new Disciplina("Disciplina #C"){ Id=Guid.NewGuid().ToString() },
-               new Disciplina("Disciplina #D"){ Id=Guid.NewGuid().ToString() },
-               new Disciplina("Disciplina #E"){ Id=Guid.NewGuid().ToString() }
-            };
+                List<Disciplina> disciplinas = new List<Disciplina>();
+                List<Curso> cursos = new List<Curso>();
+
+                disciplinas.Add(new Disciplina("Disciplina #A") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #B") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #C") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #D") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #E") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #F") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #G") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #H") { Id = Guid.NewGuid().ToString() });
+                disciplinas.Add(new Disciplina("Disciplina #I") { Id = Guid.NewGuid().ToString() });
 
                 foreach (Disciplina disciplina in disciplinas)
                 {
                     context.Set<Disciplina>().Add(disciplina);
                 }
 
+                // Adicionando Cursos:
 
-                // Adicionando Cursos
+                cursos.Add(new Curso("MBA em .NET", "Curso de .NET") { Id = Guid.NewGuid().ToString() });
+                cursos.Add(new Curso("MBA em BigData", "Curso de BigData") { Id = Guid.NewGuid().ToString() });
+                cursos.Add(new Curso("Engenharia de Software", "Curso de Engenharia de Software") { Id = Guid.NewGuid().ToString() });
 
-                List<Curso> cursos = new List<Curso>
-            {
-               new Curso("MBA em .NET", "MBA em .NET"){ Id=Guid.NewGuid().ToString() },
-               new Curso("MBA em BigData", "MBA em BigData"){ Id=Guid.NewGuid().ToString() },
-               new Curso("Engenharia de Software", "Engenharia de Software"){ Id=Guid.NewGuid().ToString() }
-            };
+                Random random;
+
+
 
                 foreach (Curso curso in cursos)
                 {
-                    curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[0], 1) { Id = Guid.NewGuid().ToString() });
-                    curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[1], 1) { Id = Guid.NewGuid().ToString() });
-                    curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[2], 2) { Id = Guid.NewGuid().ToString() });
-                    curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[3], 2) { Id = Guid.NewGuid().ToString() });
-                    curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[4], 3) { Id = Guid.NewGuid().ToString() });
+                    for (int i = 0; i < disciplinas.Count; i++)
+                    {
+                        random = new Random(DateTime.Now.Millisecond);
+                        int proximoModulo = curso.Disciplinas.Max(p => p.Modulo) + 1;
+                        byte modulo = i == 0 ? (byte)1 : (byte)random.Next(1, proximoModulo);
+                        curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[i], modulo) { Id = Guid.NewGuid().ToString() });
+                    }
 
                     context.Set<Curso>().Add(curso);
                 }
@@ -98,21 +105,19 @@ namespace Fiap.Cursos.Mobile.API
 
                 context.SaveChanges();
             }
-            catch (DbEntityValidationException e)
+            catch (DbEntityValidationException ex)
             {
-                var x = "";
-                foreach (var eve in e.EntityValidationErrors)
+                var exceptionString = "";
+                foreach (var eve in ex.EntityValidationErrors)
                 {
-                    x += $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:\n";
+                    exceptionString += $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:\n";
 
                     foreach (var ve in eve.ValidationErrors)
-                    {
-                        x += $"- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"\n";
-                    }
+                        exceptionString += $"- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"\n";
                 }
-                throw new Exception(x);
-            }
 
+                throw new Exception(exceptionString);
+            }
 
             base.Seed(context);
         }
