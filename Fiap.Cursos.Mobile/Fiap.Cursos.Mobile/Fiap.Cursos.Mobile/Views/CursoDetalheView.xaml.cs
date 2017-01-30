@@ -19,6 +19,12 @@ namespace Fiap.Cursos.Mobile.Views
             _curso = curso;
             InitializeComponent();
             BindingContext = new CursoDetalheViewModel(_curso, Navigation);
+
+            DetalhesCursoListView.ItemTapped += (sender, e) =>
+            {
+                if (e.Item == null) return;
+                ((ListView)sender).SelectedItem = null;
+            };
         }
 
         protected override void OnAppearing()

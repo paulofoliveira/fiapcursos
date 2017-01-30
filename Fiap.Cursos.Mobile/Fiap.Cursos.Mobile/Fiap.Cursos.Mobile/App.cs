@@ -20,7 +20,7 @@ namespace Fiap.Cursos.Mobile
             {
                 if (_client == null)
                 {
-                    _client = new MobileServiceClient("https://fiapcursos.azurewebsites.net/", new NativeMessageHandler());
+                    _client = new MobileServiceClient("https://fiap01.azurewebsites.net/", new NativeMessageHandler());
                 }
 
                 return _client;

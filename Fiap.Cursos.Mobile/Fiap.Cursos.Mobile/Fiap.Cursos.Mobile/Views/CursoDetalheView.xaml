@@ -12,25 +12,31 @@
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Button Text="Realize o Login" HorizontalOptions="FillAndExpand" Command="{Binding LoginCommand}" IsVisible="{Binding AcessarDetalheDisciplina, Converter={StaticResource inverseBooleanConverter}}"></Button>
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness" iOS="5,20,5,20" Android="5,10,5,10" WinPhone="5,10,5,10" />
+            </StackLayout.Padding>
+            <Button Text="Realize o Login" HeightRequest="60" FontSize="Medium" BackgroundColor="#3498DB" TextColor="White" HorizontalOptions="FillAndExpand" Command="{Binding LoginCommand}" IsVisible="{Binding AcessarDetalheDisciplina, Converter={StaticResource inverseBooleanConverter}}"></Button>
+            <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" HorizontalOptions="CenterAndExpand" />
             <ListView IsGroupingEnabled="True" GroupDisplayBinding="{Binding Modulo}" ItemsSource="{Binding Disciplinas}" x:Name="DetalhesCursoListView">
                 <ListView.RowHeight>
                     <OnPlatform x:TypeArguments="x:Int32" iOS="60" Android="50" WinPhone="50" />
-                </ListView.RowHeight>
-                <ListView.HeaderTemplate>
+                </ListView.RowHeight>      
+                <ListView.GroupHeaderTemplate>
                     <DataTemplate>
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding .}" XAlign="Center" />
-                        </StackLayout>
+                        <ViewCell Height="25">
+                            <StackLayout VerticalOptions="FillAndExpand" Padding="5" BackgroundColor="#3498DB">
+                                <Label Text="{Binding Modulo}" TextColor="White"  VerticalOptions="CenterAndExpand" FontSize="Medium"  />                             
+                            </StackLayout>
+                        </ViewCell>                   
                     </DataTemplate>
-                </ListView.HeaderTemplate>
+                </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <StackLayout Padding="10,5,10,5" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                     <Label Text="{Binding Value}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"></Label>
-                                    <Button Text="Editar" IsVisible="{Binding Path=BindingContext.AcessarDetalheDisciplina, Source={x:Reference Name=DetalhesCursoListView}}" HorizontalOptions="End" VerticalOptions="FillAndExpand" Command="{Binding Path=BindingContext.DetalhesDisciplinaCommand, Source={x:Reference Name=DetalhesCursoListView}}" CommandParameter="{Binding Key}"></Button>
+                                    <Button Text="Editar" BackgroundColor="#3498DB" TextColor="White" IsVisible="{Binding Path=BindingContext.AcessarDetalheDisciplina, Source={x:Reference Name=DetalhesCursoListView}}" HorizontalOptions="End" VerticalOptions="FillAndExpand" Command="{Binding Path=BindingContext.DetalhesDisciplinaCommand, Source={x:Reference Name=DetalhesCursoListView}}" CommandParameter="{Binding Key}"></Button>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>

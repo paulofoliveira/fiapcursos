@@ -11,6 +11,12 @@ namespace Fiap.Cursos.Mobile.Views
         {
             InitializeComponent();
             BindingContext = new CursosViewModel(Navigation);
+
+            CursosListView.ItemTapped += (sender, e) =>
+            {
+                if (e.Item == null) return;
+                ((ListView)sender).SelectedItem = null;
+            };
         }
 
         protected override void OnAppearing()
@@ -18,11 +24,5 @@ namespace Fiap.Cursos.Mobile.Views
             base.OnAppearing();
             ((CursosViewModel)BindingContext).Load();
         }
-
-        //protected void Curso_Tapped(object sender, ItemTappedEventArgs e)
-        //{
-        //    Curso curso = e.Item as Curso;
-        //    Navigation.PushAsync(new CursoDetalheView(curso));
-        //}
     }
 }

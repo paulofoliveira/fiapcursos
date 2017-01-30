@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Fiap.Cursos.Mobile.Views.CursosView" Title="Cursos">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" VerticalOptions="Start">
-            <SearchBar x:Name="PesquisaCursoSearchBar" Text="{Binding Filtro}" Placeholder="Pesquise um curso ..." SearchCommand="{Binding PesquisarCursosCommand}" ></SearchBar>
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness" iOS="5,15,5,15" Android="5,10,5,10" WinPhone="5,10,5,10" />
+            </StackLayout.Padding>
+            <SearchBar x:Name="PesquisaCursoSearchBar" Text="{Binding Filtro}" Placeholder="Pesquise um curso ..." SearchCommand="{Binding PesquisarCursosCommand}" HorizontalOptions="FillAndExpand" ></SearchBar>
             <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" HorizontalOptions="CenterAndExpand" />
-            <ListView ItemsSource="{Binding Cursos}" x:Name="CursosListView">
+            <ListView ItemsSource="{Binding Cursos}" x:Name="CursosListView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <ListView.RowHeight>
                     <OnPlatform x:TypeArguments="x:Int32" iOS="70" Android="60" WinPhone="60" />
                 </ListView.RowHeight>
@@ -19,7 +22,7 @@
                                         <Label Text="{Binding Nome}" HorizontalOptions="FillAndExpand" FontSize="Medium"></Label>
                                         <Label Text="{Binding Descricao}" HorizontalOptions="FillAndExpand" FontSize="Micro"></Label>
                                     </StackLayout>
-                                    <Button Text="Detalhes" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Command="{Binding Path=BindingContext.DetalhesCursoCommand, Source={x:Reference Name=CursosListView}}" CommandParameter="{Binding .}"></Button>
+                                    <Button Text="Detalhes" BackgroundColor="#3498DB" TextColor="White" HorizontalOptions="End" VerticalOptions="CenterAndExpand" Command="{Binding Path=BindingContext.DetalhesCursoCommand, Source={x:Reference Name=CursosListView}}" CommandParameter="{Binding .}"></Button>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>

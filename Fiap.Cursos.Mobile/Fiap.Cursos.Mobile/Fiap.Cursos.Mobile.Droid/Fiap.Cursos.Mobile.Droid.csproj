@@ -52,6 +52,9 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.180\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GCM.Client">
+      <HintPath>..\..\Components\GCMClient-1.0\lib\android\GCM.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Mobile, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.Mobile.Client.3.1.0\lib\monoandroid\Microsoft.WindowsAzure.Mobile.dll</HintPath>
       <Private>True</Private>
@@ -123,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndroidAuthService.cs" />
+    <Compile Include="GcmService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,6 +156,12 @@
       <Project>{f4fc6a42-2e1e-404b-899c-0a0a992a2b42}</Project>
       <Name>Fiap.Cursos.Mobile</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="GCMClient">
+      <Visible>False</Visible>
+      <Version>1.0</Version>
+    </XamarinComponentReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
