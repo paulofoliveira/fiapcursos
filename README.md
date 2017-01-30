@@ -6,3 +6,12 @@ Diversos conceitos aprendidos em sala serão abordados no trabalho e posteriorme
 - Página de lista de cursos. Visualizar e pesquisar.
 - Página de detalhes do curso onde deverão ser apresentados em lista organizados por módulos as disciplinas do curso.
 - Página de edição de uma disciplina para usuários que estiverem autenticados.
+
+No trabalho englobam-se a utilização de conceitos vistos em sala de aula como:
+- Utilização do XAML para construção das interfaces
+- Utilização do pattern MVVM com a implementação da interface INotifyPropertyChanged.
+- Criação de converters utilizando IValueConverter.
+- Backend no Mobile Apps do Azure.
+- Extensão de controle Picker para "bindable" MVVM.
+- Autenticação utilizando provedor externo do Google através do MobileServiceClient do Azure.
+
