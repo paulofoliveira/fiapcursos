@@ -64,44 +64,46 @@ namespace Fiap.Cursos.Mobile.API
                 List<Disciplina> disciplinas = new List<Disciplina>();
                 List<Curso> cursos = new List<Curso>();
 
-                disciplinas.Add(new Disciplina("Disciplina #A") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #B") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #C") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #D") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #E") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #F") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #G") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #H") { Id = Guid.NewGuid().ToString() });
-                disciplinas.Add(new Disciplina("Disciplina #I") { Id = Guid.NewGuid().ToString() });
+                for (int i = 1; i <= 20; i++)
+                    disciplinas.Add(new Disciplina($"Disciplina #{i}") { Id = Guid.NewGuid().ToString() });
+
 
                 foreach (Disciplina disciplina in disciplinas)
-                {
                     context.Set<Disciplina>().Add(disciplina);
-                }
 
                 // Adicionando Cursos:
 
-                cursos.Add(new Curso("MBA em .NET", "Curso de .NET") { Id = Guid.NewGuid().ToString() });
-                cursos.Add(new Curso("MBA em BigData", "Curso de BigData") { Id = Guid.NewGuid().ToString() });
-                cursos.Add(new Curso("Engenharia de Software", "Curso de Engenharia de Software") { Id = Guid.NewGuid().ToString() });
+                for (int i = 1; i <= 10; i++)
+                    cursos.Add(new Curso($"Curso #{i}", $"Detalhes do curso #{i}.") { Id = Guid.NewGuid().ToString() });
 
-                Random random;
-
-
+                foreach (Curso curso in cursos)
+                    context.Set<Curso>().Add(curso);
 
                 foreach (Curso curso in cursos)
                 {
-                    for (int i = 0; i < disciplinas.Count; i++)
+                    int totalSorteado = new Random(DateTime.Now.Millisecond).Next(2, disciplinas.Count());
+                    int qtdCursosPorModulo = new Random(DateTime.Now.Millisecond).Next(2, 5);
+                    int adicionado = 0;
+                    byte moduloCorrente = 0;
+
+                    while (totalSorteado != adicionado)
                     {
-                        random = new Random(DateTime.Now.Millisecond);
-                        int proximoModulo = curso.Disciplinas.Max(p => p.Modulo) + 1;
-                        byte modulo = i == 0 ? (byte)1 : (byte)random.Next(1, proximoModulo);
-                        curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[i], modulo) { Id = Guid.NewGuid().ToString() });
+                        moduloCorrente++;
+                        List<int> disciplinasAdicionadas = new List<int>();
+                        for (int i = 0; i < qtdCursosPorModulo; i++)
+                        {
+                            if (totalSorteado == adicionado) break;
+                            int disciplina = 0;
+
+                            while (disciplinasAdicionadas.Any() || disciplinasAdicionadas.Any(p => p == disciplina))
+                                disciplina = new Random(DateTime.Now.Millisecond).Next(0, disciplinas.Count() - 1);
+
+                            curso.Disciplinas.Add(new CursoDisciplina(curso, disciplinas[disciplina], moduloCorrente) { Id = Guid.NewGuid().ToString() });
+
+                            adicionado++;
+                        }
                     }
-
-                    context.Set<Curso>().Add(curso);
                 }
-
 
                 context.SaveChanges();
             }
@@ -117,6 +119,10 @@ namespace Fiap.Cursos.Mobile.API
                 }
 
                 throw new Exception(exceptionString);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             base.Seed(context);

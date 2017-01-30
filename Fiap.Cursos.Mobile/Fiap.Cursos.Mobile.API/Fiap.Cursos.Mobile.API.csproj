@@ -211,8 +211,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\FiapCursos - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\FiapCursos - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\fiap01 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\fiap01 - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
